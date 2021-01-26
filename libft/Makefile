@@ -3,98 +3,63 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mmarti <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: tyasmine <kbessa@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/04/12 14:18:02 by mmarti            #+#    #+#              #
-#    Updated: 2019/04/12 14:18:07 by mmarti           ###   ########.fr        #
+#    Created: 2019/10/01 14:51:29 by kbessa            #+#    #+#              #
+#    Updated: 2019/10/08 14:17:48 by kbessa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
+NAME 		=		libftprintf.a
+CC		    = 		gcc
+CFLAGS 		= 		-I includes/ -Wall -Wextra -Werror -O1
+OBJ 		= 		$(SRC:.c=.o)
 
-DIR_O = objs
+C_OK		=		"\033[35m"
+C_GOOD		=		"\033[32m"
+C_NO		=		"\033[00m"
 
-SRC = ft_memalloc.c\
-	ft_strcat.c\
-	ft_strncmp.c\
-	ft_memccpy.c\
-	ft_strchr.c\
-	ft_strncpy.c\
-    ft_atoi.c\
-	ft_bzero.c\
-	ft_memcmp.c\
-	ft_strcmp.c\
-    ft_dcount.c\
-	ft_memcpy.c\
-	ft_strcpy.c\
-	ft_strnlen.c\
-    ft_isalnum.c\
-	ft_strnstr.c\
-    ft_isalpha.c\
-	ft_memmove.c\
-	ft_strdup.c\
-	ft_strrchr.c\
-    ft_isascii.c\
-	ft_memset.c\
-	ft_strrev.c\
-    ft_isdigit.c\
-	ft_putchar.c\
-	ft_strsplit.c\
-    ft_isprint.c\
-	ft_putchar_fd.c\
-	ft_strstr.c\
-    ft_itoa.c\
-	ft_putendl.c\
-	ft_strjoin.c\
-	ft_strsub.c\
-    ft_putendl_fd.c\
-	ft_strtrim.c\
-    ft_putnbr.c\
-	ft_strlen.c\
-	ft_tolower.c\
-    ft_putnbr_fd.c\
-	ft_toupper.c\
-    ft_putstr.c\
-	ft_sqrt.c\
-    ft_putstr_fd.c\
-	ft_strnchr.c\
-    ft_strwlen.c\
-	ft_insert.c\
-	ft_count_str.c\
-	ft_strclen.c\
-	ft_strtok.c\
-    get_next_line.c\
-	ft_xmalloc.c\
-	parse_opt.c\
-	ft_lstins.c\
-	ft_lstdel.c
+SUCCESS		=		$(C_GOOD)SUCCESS$(C_NO)
+OK			=		$(C_OK)OK$(C_NO)
 
-OBJ = $(addprefix $(DIR_O)/,$(SRC:.c=.o))
-
-HEAD = .
+SRC         =	srcs/ft_printf.c srcs/f_frac.c srcs/f_get_ent.c srcs/f_lst.c srcs/f_parse.c srcs/f_putnum.c \
+                srcs/f_round.c srcs/f_spec.c srcs/f_sup.c srcs/f_sup2.c srcs/float.c srcs/ft_lib_f.c srcs/ft_output.c \
+                srcs/ft_output_csp.c srcs/ft_output_d.c srcs/ft_output_x.c srcs/ft_pars.c srcs/ft_prt.c
 
 all: $(NAME)
 
-$(NAME): mes $(OBJ)
-	@ar rc $(NAME) $(OBJ)
-	@ranlib $(NAME)
-	@echo "\033[34mDone!\033[0m"
+%.o: %.c
+	@printf "[ft_printf] Compiling [.:]\r"
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@printf "[ft_printf] Compiling [:.]\r"
 
-mes:
-	@echo "\033[34mCompiling...\033[0m"
+$(NAME): $(OBJ)
+	@make -C libft/
 
-$(DIR_O):
-	@mkdir -p $(DIR_O)
-
-$(OBJ): $(DIR_O)/%.o: %.c $(wildcard $(HEAD)/*.h) | $(DIR_O)
-	@gcc $(FLAGS) -c $(INCLUDES) -o $@ $<
+	@cp libft/libft.a ./$(NAME)
+	@ar rc $@ $^
+	@ranlib $@
+	@echo "Compiling & indexing" [ $(NAME) ] $(SUCCESS)
 
 clean:
-	/bin/rm -rf $(DIR_O)
+	@make clean -C libft/
+	@/bin/rm -f $(OBJ)
+	@printf "[ft_printf] Removed object files!\n"
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@/bin/rm -f $(NAME)
+	@make fclean -C libft/
+	@echo "Cleaning" [ $(NAME) ] "..." $(OK)
 
 re: fclean all
 
+ifeq ($(shell uname),Darwin)
+test: re
+	cd tests/tests && $(MAKE) test
+else
+test: re
+	@echo "\n\n\033[45mBuild ok, launch tests on OSX\033[0m\n\n"
+	exit 0
+endif
 
+.PHONY: all clean fclean re test
