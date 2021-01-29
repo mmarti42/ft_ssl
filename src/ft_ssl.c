@@ -59,7 +59,7 @@ void	set_hash_func(char *av, t_hash_func *f)
 	else
 	{
 		//ft_printf("%s%s\n%s\n", "ft_ssl: Error: ", av[1], " is an invalid command"\
-		"Message digest commands:\n md5\n");
+		//"Message digest commands:\n md5\n");
 		fatal_err("ft_ssl: Error: invalid command\nMessage digest commands:\n md5\nsha256");
 	}
 }

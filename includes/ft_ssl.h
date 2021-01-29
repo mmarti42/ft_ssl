@@ -13,8 +13,8 @@
 #ifndef FT_SSL_H
 # define FT_SSL_H
 
-# include "libft/includes/libft.h"
-# include "libft/includes/ft_printf.h"
+# include "libft.h"
+# include "ft_printf.h"
 # include <fcntl.h>
 # include <errno.h>
 
