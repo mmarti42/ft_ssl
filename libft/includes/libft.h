@@ -23,7 +23,7 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
-typedef enum 		e_bool
+typedef	enum		e_bool
 {
 	false,
 	true

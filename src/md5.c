@@ -1,6 +1,19 @@
-#include "ft_ssl.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   md5.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmarti <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/31 15:13:34 by mmarti            #+#    #+#             */
+/*   Updated: 2021/01/31 15:13:37 by mmarti           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void md5_init(uint32_t *v)
+#include "ft_ssl.h"
+#include "md5.h"
+
+void		md5_init(uint32_t *v)
 {
 	v[A] = 0x67452301;
 	v[B] = 0xEFCDAB89;
@@ -8,43 +21,41 @@ void md5_init(uint32_t *v)
 	v[D] = 0x10325476;
 }
 
-// uint64_t b_swap64(uint64_t x)
-// {
-// 	const uint32_t high_part = htonl((uint32_t)(x >> 32));
-//     const uint32_t low_part = htonl((uint32_t)(x & 0xFFFFFFFFLL));
-// 	return ((uint64_t)(low_part) << 32) | high_part;
-// }
-
-uint64_t	b_swap64(uint64_t val)
+void		md5prepare(t_buf *data)
 {
-	val = ((val << 8) & 0xFF00FF00FF00FF00ULL) |
-		((val >> 8) & 0x00FF00FF00FF00FFULL);
-	val = ((val << 16) & 0xFFFF0000FFFF0000ULL) |
-		((val >> 16) & 0x0000FFFF0000FFFFULL);
-	return (val << 32) | (val >> 32);
-}
+	uint64_t	bitlen;
 
-void	md5prepare(t_buf *data)
-{
-	uint64_t bitlen;
-	
 	data->name = "MD5";
 	bitlen = data->siz * 8;
 	align(data);
 	*(uint64_t *)(data->buf + data->siz) = bitlen;
 	data->siz += 8;
+	data->hash_size = 4;
+	data->hash = (uint32_t *)xmalloc(data->hash_size * sizeof(uint32_t));
+	md5_init(data->hash);
 }
 
-uint32_t *md5(t_buf *data)
+void		md5step(uint32_t *m, uint32_t *hash, int i)
 {
-	uint32_t v[4];
-	size_t	ct;
-	int i;
+	uint32_t g;
+	uint32_t f;
+
+	md5setfd(&f, &g, i, hash);
+	f = f + hash[A] + g_k[i] + m[g];
+	hash[A] = hash[D];
+	hash[D] = hash[C];
+	hash[C] = hash[B];
+	hash[B] = hash[B] + rotate_left(f, g_s[i]);
+}
+
+uint32_t	*md5(t_buf *data)
+{
+	uint32_t	v[4];
+	size_t		ct;
+	int			i;
 
 	ct = 0;
 	md5prepare(data);
-	data->hash = (uint32_t *)xmalloc((data->hash_size = 4) * sizeof(uint32_t));
-	md5_init(data->hash);
 	while (ct < data->siz)
 	{
 		i = -1;
