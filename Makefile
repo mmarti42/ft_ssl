@@ -11,7 +11,7 @@ FLAGS := -g -Wall -Wextra -Werror
 SOURCES := ft_ssl.c \
 			hash.c\
 			md5.c\
-			md5setfd.c\
+			md5setfg.c\
 			utils.c\
 			sha256.c\
 			utils2.c

@@ -62,7 +62,7 @@ uint32_t		rotate_right(uint32_t num, int n);
 void			append_byte(t_buf *data, uint8_t byte);
 
 uint32_t		*md5(t_buf *data);
-void			md5setfd(uint32_t *f, uint32_t *g, int i, uint32_t *hash);
+void			md5setfg(uint32_t *f, uint32_t *g, int i, uint32_t *hash);
 
 void			hash_start(char **av, t_hash_func f);
 void			align(t_buf *data);

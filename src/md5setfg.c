@@ -32,7 +32,7 @@ static uint32_t	f4(uint32_t x, uint32_t y, uint32_t z)
 	return (y ^ (x | (~z)));
 }
 
-void			md5setfd(uint32_t *f, uint32_t *g, int i, uint32_t *hash)
+void			md5setfg(uint32_t *f, uint32_t *g, int i, uint32_t *hash)
 {
 	if (i < 16)
 	{

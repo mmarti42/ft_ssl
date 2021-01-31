@@ -73,7 +73,7 @@ void	set_hash_func(char *av, t_hash_func *f)
 		*f = sha256;
 	else
 		fatal_err("ft_ssl: Error: invalid\
-		command\nMessage digest commands:\nmd5\nsha256");
+command\nMessage digest commands:\nmd5\nsha256");
 }
 
 int		main(int ac, char **av)
