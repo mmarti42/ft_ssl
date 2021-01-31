@@ -32,11 +32,14 @@ typedef struct	s_fl
 {
 	t_bool		reverse_print;
 	t_bool		quiet_mode;
+	t_bool		string;
+	t_bool		p;
 }				t_fl;
 
 typedef struct	s_buf
 {
 	const char	*name;
+	const char	*argument;
 	int8_t		hash_size;
 	uint32_t	*hash;
 	uint8_t		*buf;
@@ -70,5 +73,6 @@ void			align(t_buf *data);
 uint32_t		*sha256(t_buf *data);
 
 void			readall(int fd, t_buf *ssl);
-char			**hopts(char **av, t_buf *buf);
+char			**hopts(char **av, t_buf *buf, t_bool *stdinput);
+
 #endif

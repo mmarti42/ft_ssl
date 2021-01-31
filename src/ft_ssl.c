@@ -36,24 +36,34 @@ void	readall(int fd, t_buf *ssl)
 	}
 }
 
-char	**hopts(char **av, t_buf *buf)
+void	hsopt(char **av, t_buf *buf)
+{
+	if (!av[1])
+		fatal_err("option s requires argument");
+	if (!(buf->buf = (uint8_t *)ft_strdup(av[1])))
+		fatal_err(strerror(errno));
+	buf->siz = ft_strlen((char *)buf->buf);
+	buf->memsize = buf->siz + 1;
+	g_opt.string = true;
+}
+
+char	**hopts(char **av, t_buf *buf, t_bool *stdinput)
 {
 	char opt;
 
 	opt = *(*av + 1);
 	if (opt == 'p')
 	{
+		g_opt.p = true;
+		*stdinput = false;
 		readall(STDIN_FILENO, buf);
 		write(STDOUT_FILENO, buf->buf, buf->siz);
 	}
 	else if (opt == 's')
 	{
-		if (!av[1])
-			fatal_err("option s requires argument");
-		if (!(buf->buf = (uint8_t *)ft_strdup(av[1])))
-			fatal_err(strerror(errno));
-		buf->siz = ft_strlen((char *)buf->buf);
-		buf->memsize = buf->siz + 1;
+		hsopt(av, buf);
+		buf->argument = av[1];
+		*stdinput = false;
 		return (av + 2);
 	}
 	else if (opt == 'r')

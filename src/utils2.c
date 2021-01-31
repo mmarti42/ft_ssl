@@ -12,6 +12,13 @@
 
 #include "ft_ssl.h"
 
+void		align(t_buf *data)
+{
+	append_byte(data, 128);
+	while (data->siz % 64 != 56)
+		append_byte(data, 0);
+}
+
 void		free_buf(t_buf *buf)
 {
 	free(buf->buf);
