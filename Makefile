@@ -12,7 +12,8 @@ SOURCES := ft_ssl.c \
 			hash.c\
 			md5.c\
 			md5step.c\
-			utils.c
+			utils.c\
+			sha256.c
 
 # ------------  DIRECTORIES  ------------------------------------------------- #
 
@@ -56,7 +57,6 @@ $(NAME): $(LIBFT_DIR)/libftprintf.a $(OBJS)
 	@echo "\033[32;01mbinary is ready\033[0m"
 
 $(OBJS): $(DIR_O)/%.o: $(DIR_S)/%.c $(wildcard $(INCLUDE_DIR)/*.h) | $(DIR_O)
-
 	gcc $(FLAGS) -c $(INCLUDES) -o $@ $<
 
 $(DIR_O):

@@ -1,5 +1,10 @@
 #include "ft_ssl.h"
 
+uint32_t	rotate_right(uint32_t num, int n)
+{
+	return (num >> n) | (num << (32 - n));
+}
+
 uint32_t	rotate_left(uint32_t num, int n)
 {
 	return (num << n) | (num >> (32 - n));
@@ -30,7 +35,7 @@ uint32_t b_swap32(uint32_t x)
 	| (((x) & 0x0000ff00u) << 8) | (((x) & 0x000000ffu) << 24));
 }
 
-uint32_t *swap_bytes_order(uint32_t *bytes, uint8_t size)
+uint32_t *swap_bytes_order(uint32_t *bytes, size_t size)
 {
 	uint32_t *ret;
 

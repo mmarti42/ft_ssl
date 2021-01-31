@@ -54,14 +54,10 @@ void	set_hash_func(char *av, t_hash_func *f)
 {
 	if (!ft_strcmp(av, "md5"))
 		*f = md5;
-	// else if (!ft_strcmp(av, "sha256"))
-	// 	hash_func = sha256_hash;
+	else if (!ft_strcmp(av, "sha256"))
+		*f = sha256;
 	else
-	{
-		//ft_printf("%s%s\n%s\n", "ft_ssl: Error: ", av[1], " is an invalid command"\
-		//"Message digest commands:\n md5\n");
-		fatal_err("ft_ssl: Error: invalid command\nMessage digest commands:\n md5\nsha256");
-	}
+		fatal_err("ft_ssl: Error: invalid command\nMessage digest commands:\nmd5\nsha256");
 }
 
 int main(int ac, char **av) 

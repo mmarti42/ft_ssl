@@ -12,7 +12,7 @@
 
 NAME 		=		libftprintf.a
 CC		    = 		gcc
-CFLAGS 		= 		-I includes/ -Wall -Wextra -Werror -O1
+CFLAGS 		= 		-g -I includes/ -Wall -Wextra -Werror -O1
 OBJ 		= 		$(SRC:.c=.o)
 
 C_OK		=		"\033[35m"
